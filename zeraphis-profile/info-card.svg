@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 460" width="620" height="460">
+<style>text{font-family:'SFMono-Regular','Consolas','Liberation Mono',monospace;}</style>
+<rect width="100%" height="100%" fill="transparent"/>
+<text x="26" y="26" font-size="14" fill="#e6edf3" font-weight="bold">guest@zeraphisstudios</text>
+<text x="26" y="42.5" font-size="13" fill="#8b949e">github.com/ZeraphisStudios</text>
+<line x1="26" y1="55.7" x2="594" y2="55.7" stroke="#30363d" stroke-width="1"/>
+<text x="26" y="75.5" font-size="13" fill="#8b949e">Name:</text>
+<text x="176" y="75.5" font-size="13" fill="#c9d1d9">Zeraphis</text>
+<text x="26" y="97.5" font-size="13" fill="#8b949e">Role:</text>
+<text x="176" y="97.5" font-size="13" fill="#c9d1d9">FiveM Framework Developer</text>
+<text x="26" y="119.5" font-size="13" fill="#8b949e">Also:</text>
+<text x="176" y="119.5" font-size="13" fill="#c9d1d9">Full Stack Web Developer</text>
+<text x="26" y="141.5" font-size="13" fill="#8b949e">Focus:</text>
+<text x="176" y="141.5" font-size="13" fill="#c9d1d9">FiveM Systems &amp; Modern Web Applications</text>
+<text x="26" y="163.5" font-size="13" fill="#8b949e">FiveM:</text>
+<text x="176" y="163.5" font-size="13" fill="#c9d1d9">QBCore · Qbox · ESX</text>
+<text x="26" y="185.5" font-size="13" fill="#8b949e">Libraries:</text>
+<text x="176" y="185.5" font-size="13" fill="#c9d1d9">ox_lib · ox_inventory · ox_target</text>
+<text x="26" y="207.5" font-size="13" fill="#8b949e">Frontend:</text>
+<text x="176" y="207.5" font-size="13" fill="#c9d1d9">React · TypeScript · TSX</text>
+<text x="26" y="229.5" font-size="13" fill="#8b949e">Web:</text>
+<text x="176" y="229.5" font-size="13" fill="#c9d1d9">HTML · CSS · JavaScript</text>
+<text x="26" y="251.5" font-size="13" fill="#8b949e">Backend:</text>
+<text x="176" y="251.5" font-size="13" fill="#c9d1d9">Node.js · MySQL · REST APIs</text>
+<text x="26" y="273.5" font-size="13" fill="#8b949e">Languages:</text>
+<text x="176" y="273.5" font-size="13" fill="#c9d1d9">Lua · JavaScript · TypeScript · C# · Pawn</text>
+<text x="26" y="295.5" font-size="13" fill="#8b949e">Specialities:</text>
+<text x="176" y="295.5" font-size="13" fill="#c9d1d9">Framework Compatibility</text>
+<text x="26" y="317.5" font-size="13" fill="#8b949e"></text>
+<text x="176" y="317.5" font-size="13" fill="#c9d1d9">Modern NUI Interfaces</text>
+<text x="26" y="339.5" font-size="13" fill="#8b949e"></text>
+<text x="176" y="339.5" font-size="13" fill="#c9d1d9">Performance Optimisation</text>
+<text x="26" y="361.5" font-size="13" fill="#8b949e">Current:</text>
+<text x="176" y="361.5" font-size="13" fill="#c9d1d9">Building immersive FiveM experiences</text>
+<text x="26" y="383.5" font-size="13" fill="#8b949e"></text>
+<text x="176" y="383.5" font-size="13" fill="#c9d1d9">Creating responsive web applications</text>
+<rect x="26.0" y="414.3" width="68.0" height="14" fill="rgb(40,40,40)"/>
+<rect x="97.0" y="414.3" width="68.0" height="14" fill="rgb(62,62,62)"/>
+<rect x="168.0" y="414.3" width="68.0" height="14" fill="rgb(84,84,84)"/>
+<rect x="239.0" y="414.3" width="68.0" height="14" fill="rgb(106,106,106)"/>
+<rect x="310.0" y="414.3" width="68.0" height="14" fill="rgb(128,128,128)"/>
+<rect x="381.0" y="414.3" width="68.0" height="14" fill="rgb(150,150,150)"/>
+<rect x="452.0" y="414.3" width="68.0" height="14" fill="rgb(172,172,172)"/>
+<rect x="523.0" y="414.3" width="68.0" height="14" fill="rgb(194,194,194)"/>
+</svg>
