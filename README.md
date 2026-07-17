@@ -3,20 +3,20 @@
 <table>
 <tr>
 <td valign="top"><img src="./avi-ascii.svg" width="437" alt="ASCII portrait" /></td>
-<td valign="top"><img src="./info-card.svg" width="540" alt="Zeraphis developer identity card" /></td>
+<td valign="top"><img src="./info-card.svg" width="490" alt="Experience, stack, highlights" /></td>
 </tr>
 </table>
 
-## ZERAPHIS STUDIOS
+## Zeraphis Studios
 
-`FiveM Developer` · `Web Developer` · `UI Engineer`
+**FiveM Developer · Web Developer · UI Engineer**
 
-I engineer immersive FiveM systems and modern web experiences where
-performance, reliability, and interface design receive equal attention.
-From Lua-powered gameplay to polished React NUI, every project is built
-to feel responsive, intentional, and distinctly its own.
+I build immersive FiveM systems, custom framework integrations and modern
+web applications. My work focuses on reliable Lua development, responsive
+React interfaces, polished NUI experiences and compatibility across popular
+FiveM frameworks.
 
-**Technology matrix:** `Lua` · `React` · `TypeScript` · `TSX` · `JavaScript` · `HTML` · `CSS` · `C#` · `Pawn` · `Node.js` · `MySQL`
+**Technologies:** Lua, React, TypeScript, TSX, JavaScript, HTML, CSS, C#, Pawn, Node.js, MySQL
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-zeraphis.co.uk-0d1117?style=for-the-badge&logo=vercel&logoColor=white)](https://zeraphis.co.uk)
 
