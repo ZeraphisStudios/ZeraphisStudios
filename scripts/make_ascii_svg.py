@@ -22,17 +22,17 @@ from PIL import Image
 SRC = "source-prepped.png"
 OUT = "avi-ascii.svg"
 
-COLS = 90                 # ascii grid width in characters
+COLS = 130                 # ascii grid width in characters
 CHAR_ASPECT = 2.15         # terminal chars are taller than wide; corrects sampling
-FONT_SIZE = 7
+FONT_SIZE = 6
 LINE_HEIGHT = FONT_SIZE * 1.05
 FONT_FAMILY = "'SFMono-Regular','Consolas','Liberation Mono',monospace"
 
-CONTRAST = 1.15            # post-multiply on normalized brightness
-GAMMA = 0.9                # <1 lightens midtones, >1 darkens
-WHITE_FLOOR = 0.06         # minimum brightness treated as "not background"
+CONTRAST = 1.35            # post-multiply on normalized brightness
+GAMMA = 0.85                # <1 lightens midtones, >1 darkens
+WHITE_FLOOR = 0.05         # minimum brightness treated as "not background"
 
-COLOR = "#c9d1d9"          # monochrome light-gray (GitHub dark-mode friendly)
+COLOR = "#a9c6e8"          # cool blue-gray, echoes the logo's palette
 BG = "transparent"
 
 ROW_DUR = 0.045            # seconds each row takes to type in

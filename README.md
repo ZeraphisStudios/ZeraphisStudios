@@ -2,7 +2,7 @@
 
 <table>
 <tr>
-<td valign="top"><img src="./avi-ascii.svg" width="450" alt="ASCII portrait" /></td>
+<td valign="top"><img src="./avi-ascii.svg" width="437" alt="ASCII portrait" /></td>
 <td valign="top"><img src="./info-card.svg" width="490" alt="Experience, stack, highlights" /></td>
 </tr>
 </table>
@@ -19,7 +19,6 @@ FiveM frameworks.
 **Technologies:** Lua, React, TypeScript, TSX, JavaScript, HTML, CSS, C#, Pawn, Node.js, MySQL, QBCore, Qbox, ESX, ox_lib, ox_inventory, ox_target
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-zeraphis.co.uk-0d1117?style=for-the-badge&logo=vercel&logoColor=white)](https://zeraphis.co.uk)
-[![Instagram](https://img.shields.io/badge/Instagram-_zeraphis-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/_zeraphis)
 
 <br>
 

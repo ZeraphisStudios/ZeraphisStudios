@@ -22,16 +22,16 @@ PAD_TOP = 34
 PAD_BOTTOM = 34
 LEFT_LABEL_W = 28
 
-# monochrome-friendly but still readable level shades (GitHub dark theme
-# green swapped for a cool blue-gray so it matches the rest of the profile)
-LEVEL_COLORS = ["#161b22", "#2d3541", "#3d4b5c", "#546a82", "#7aa2c4"]
+# brand-toned level shades (blue -> purple), echoing the logo instead of
+# generic GitHub green or flat gray
+LEVEL_COLORS = ["#161b22", "#26304a", "#3a4a7a", "#5b7fd6", "#a37ee8"]
 
 REVEAL_STAGGER = 0.006  # seconds between each cell starting to reveal
 REVEAL_DUR = 0.25
 
 FONT_FAMILY = "'SFMono-Regular','Consolas','Liberation Mono',monospace"
-COLOR_TEXT = "#8b949e"
-COLOR_TEXT_STRONG = "#c9d1d9"
+COLOR_TEXT = "#7d8b9e"
+COLOR_TEXT_STRONG = "#dde6f0"
 
 
 def load():

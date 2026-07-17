@@ -44,10 +44,10 @@ LABEL_COL_W = 150
 FONT_FAMILY = "'SFMono-Regular','Consolas','Liberation Mono',monospace"
 FONT_SIZE = 13
 HEADER_SIZE = 14
-COLOR_LABEL = "#8b949e"     # muted gray
-COLOR_VALUE = "#c9d1d9"     # light gray
-COLOR_ACCENT = "#e6edf3"    # near-white for header/host
-COLOR_RULE = "#30363d"
+COLOR_LABEL = "#7d8b9e"     # muted cool gray
+COLOR_VALUE = "#dde6f0"     # cool near-white
+COLOR_ACCENT = "#8ab4e8"    # blue accent, echoes the logo
+COLOR_RULE = "#28303d"
 BG = "transparent"
 
 PROMPT = "guest@zeraphisstudios"
@@ -65,19 +65,32 @@ def build_svg() -> str:
     parts = []
     y = PAD_TOP
 
+    # header block
     parts.append(
         f'<text x="{PAD_X}" y="{y}" font-size="{HEADER_SIZE}" '
-        f'fill="{COLOR_ACCENT}" font-weight="bold">{esc(PROMPT)}</text>'
+        f'fill="{COLOR_ACCENT}" font-weight="bold">{esc(PROMPT)}'
+        f'<tspan fill="{COLOR_ACCENT}"><animate attributeName="opacity" '
+        f'values="1;1;0;0;1" dur="1.1s" repeatCount="indefinite"/>_</tspan>'
+        f"</text>"
     )
     y += ROW_H * 0.75
     parts.append(
         f'<text x="{PAD_X}" y="{y}" font-size="{FONT_SIZE}" fill="{COLOR_LABEL}">{esc(HOST)}</text>'
     )
     y += ROW_H * 0.6
-    parts.append(f'<line x1="{PAD_X}" y1="{y}" x2="{W - PAD_X}" y2="{y}" stroke="{COLOR_RULE}" stroke-width="1"/>')
-    y += ROW_H * 0.9
+    parts.append(
+        f'<rect x="{PAD_X}" y="{y - 1}" width="{W - 2 * PAD_X}" height="2" fill="url(#accentGrad)"/>'
+    )
+    y += ROW_H * 0.95
 
-    for label, value in ROWS:
+    section_breaks = {"Specialities", "Current"}
+    for i, (label, value) in enumerate(ROWS):
+        if label in section_breaks and i > 0:
+            y += ROW_H * 0.25
+            parts.append(
+                f'<line x1="{PAD_X}" y1="{y - ROW_H * 0.6:.1f}" x2="{W - PAD_X}" y2="{y - ROW_H * 0.6:.1f}" '
+                f'stroke="{COLOR_RULE}" stroke-width="1" stroke-dasharray="2,3"/>'
+            )
         label_txt = f"{label}:" if label else ""
         parts.append(
             f'<text x="{PAD_X}" y="{y}" font-size="{FONT_SIZE}" fill="{COLOR_LABEL}">{esc(label_txt)}</text>'
@@ -87,20 +100,32 @@ def build_svg() -> str:
         )
         y += ROW_H
 
-    # small color-swatch row at bottom, neofetch flavor (monochrome ramp, no rainbow)
-    y += ROW_H * 0.4
-    swatch_w = (W - 2 * PAD_X) / 8
-    for i in range(8):
-        shade = 40 + i * 22
-        color = f"rgb({shade},{shade},{shade})"
-        x = PAD_X + i * swatch_w
-        parts.append(f'<rect x="{x:.1f}" y="{y}" width="{swatch_w - 3:.1f}" height="14" fill="{color}"/>')
+    # closing accent bar: a small gradient swatch strip, brand-toned (not grayscale)
+    y += ROW_H * 0.35
+    parts.append(f'<rect x="{PAD_X}" y="{y}" width="{W - 2 * PAD_X}" height="10" rx="3" fill="url(#swatchGrad)"/>')
+
+    defs = f"""<defs>
+<linearGradient id="accentGrad" x1="0" y1="0" x2="1" y2="0">
+  <stop offset="0%" stop-color="#5b7fd6"/>
+  <stop offset="55%" stop-color="#8ab4e8"/>
+  <stop offset="100%" stop-color="#b48ae0"/>
+</linearGradient>
+<linearGradient id="swatchGrad" x1="0" y1="0" x2="1" y2="0">
+  <stop offset="0%" stop-color="#2b3550"/>
+  <stop offset="40%" stop-color="#4a5fa0"/>
+  <stop offset="70%" stop-color="#8ab4e8"/>
+  <stop offset="100%" stop-color="#c48ae8"/>
+</linearGradient>
+</defs>"""
 
     content = "\n".join(parts)
     style = f"text{{font-family:{FONT_FAMILY};}}"
-    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}">
+    card_h = y + 26
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {card_h:.0f}" width="{W}" height="{card_h:.0f}">
 <style>{style}</style>
+{defs}
 <rect width="100%" height="100%" fill="{BG}"/>
+<rect x="1" y="1" width="{W - 2}" height="{card_h - 2:.0f}" rx="10" fill="#0d1117" fill-opacity="0.35" stroke="{COLOR_RULE}" stroke-width="1"/>
 {content}
 </svg>"""
     return svg
