@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
 """
-render_heatmap_svg.py — contributions -> animated GitHub-style box graph.
+render_heatmap_svg.py — contributions -> animated activity panel (SVG).
 
-Reads data/contributions.json (written by fetch_contributions.py) and writes
-contrib-heatmap.svg: a self-hosted SVG with a Less->More legend, a real
-streak/contribution summary line, and cells that reveal one by one.
-
-Usage:
-    python scripts/render_heatmap_svg.py
+Reads data/contributions.json and writes contrib-heatmap.svg.
 """
 import json
 import datetime
@@ -15,36 +10,39 @@ import datetime
 SRC = "data/contributions.json"
 OUT = "contrib-heatmap.svg"
 
-CELL = 11
+CELL = 12
 GAP = 3
-PAD_X = 20
-PAD_TOP = 34
-PAD_BOTTOM = 34
-LEFT_LABEL_W = 28
+PAD_X = 36
+PAD_TOP = 92
+PAD_BOTTOM = 52
+LEFT_LABEL_W = 34
+FRAME = 10
 
-# brand-toned level shades (blue -> purple), echoing the logo instead of
-# generic GitHub green or flat gray
-LEVEL_COLORS = ["#161b22", "#26304a", "#3a4a7a", "#5b7fd6", "#a37ee8"]
+# cyan -> blue -> violet, matching identity card
+LEVEL_COLORS = ["#121821", "#1e2f4a", "#3557a0", "#4f8adf", "#a37ee8"]
 
-REVEAL_STAGGER = 0.006  # seconds between each cell starting to reveal
-REVEAL_DUR = 0.25
+REVEAL_STAGGER = 0.005
+REVEAL_DUR = 0.22
 
-FONT_FAMILY = "'SFMono-Regular','Consolas','Liberation Mono',monospace"
-COLOR_TEXT = "#7d8b9e"
-COLOR_TEXT_STRONG = "#dde6f0"
+FONT_FAMILY = "'SFMono-Regular','Cascadia Code','Consolas','Liberation Mono',monospace"
+COLOR_TEXT = "#6b7f9a"
+COLOR_STRONG = "#d8e4f4"
+COLOR_ACCENT = "#5ec8ff"
 
 
 def load():
-    with open(SRC) as f:
+    with open(SRC, encoding="utf-8") as f:
         return json.load(f)
+
+
+def esc(s: str) -> str:
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
 def build_svg(payload: dict) -> str:
     days = payload["days"]
     stats = payload["stats"]
-    user = payload.get("user", "")
 
-    # group by week-column, day-of-week row, same layout as GitHub
     by_date = {d["date"]: d for d in days}
     dates_sorted = sorted(by_date.keys())
     if not dates_sorted:
@@ -52,15 +50,15 @@ def build_svg(payload: dict) -> str:
 
     start = datetime.date.fromisoformat(dates_sorted[0])
     end = datetime.date.fromisoformat(dates_sorted[-1])
-
-    # align start back to the preceding Sunday so weeks are clean columns
     start_aligned = start - datetime.timedelta(days=(start.weekday() + 1) % 7)
 
     n_days = (end - start_aligned).days + 1
     n_weeks = (n_days + 6) // 7
 
-    width = LEFT_LABEL_W + PAD_X * 2 + n_weeks * (CELL + GAP)
-    height = PAD_TOP + PAD_BOTTOM + 7 * (CELL + GAP)
+    grid_w = LEFT_LABEL_W + PAD_X + n_weeks * (CELL + GAP)
+    grid_h = PAD_TOP + PAD_BOTTOM + 7 * (CELL + GAP)
+    width = grid_w + FRAME * 2
+    height = grid_h + FRAME * 2
 
     cells = []
     order = 0
@@ -70,21 +68,19 @@ def build_svg(payload: dict) -> str:
             date = start_aligned + datetime.timedelta(days=w * 7 + dow)
             if date < start or date > end:
                 continue
-            key = date.isoformat()
-            rec = by_date.get(key)
-            level = (rec or {}).get("level") or 0
-            level = min(max(level, 0), 4)
+            rec = by_date.get(date.isoformat())
+            level = min(max((rec or {}).get("level") or 0, 0), 4)
             color = LEVEL_COLORS[level]
 
-            x = LEFT_LABEL_W + PAD_X + w * (CELL + GAP)
-            y = PAD_TOP + dow * (CELL + GAP)
+            x = FRAME + LEFT_LABEL_W + PAD_X + w * (CELL + GAP)
+            y = FRAME + PAD_TOP + dow * (CELL + GAP)
 
             if date.day <= 7 and date.month not in month_labels:
                 month_labels[date.month] = x
 
             begin = order * REVEAL_STAGGER
             cells.append(
-                f'<rect x="{x}" y="{y}" width="{CELL}" height="{CELL}" rx="2" ry="2" '
+                f'<rect x="{x}" y="{y}" width="{CELL}" height="{CELL}" rx="2.5" '
                 f'fill="{color}" opacity="0">'
                 f'<animate attributeName="opacity" from="0" to="1" '
                 f'begin="{begin:.3f}s" dur="{REVEAL_DUR:.3f}s" fill="freeze"/>'
@@ -92,60 +88,99 @@ def build_svg(payload: dict) -> str:
             )
             order += 1
 
-    month_names = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-                    "Aug", "Sep", "Oct", "Nov", "Dec"]
+    month_names = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     labels = []
     for month, x in sorted(month_labels.items(), key=lambda kv: kv[1]):
         labels.append(
-            f'<text x="{x}" y="{PAD_TOP - 10}" font-size="10" fill="{COLOR_TEXT}">{month_names[month]}</text>'
+            f'<text x="{x}" y="{FRAME + PAD_TOP - 14}" font-size="10" fill="{COLOR_TEXT}">'
+            f'{month_names[month]}</text>'
         )
 
     day_labels = []
     for dow, name in enumerate(["", "Mon", "", "Wed", "", "Fri", ""]):
         if not name:
             continue
-        y = PAD_TOP + dow * (CELL + GAP) + CELL - 2
-        day_labels.append(f'<text x="{PAD_X}" y="{y}" font-size="9" fill="{COLOR_TEXT}">{name}</text>')
+        y = FRAME + PAD_TOP + dow * (CELL + GAP) + CELL - 1
+        day_labels.append(
+            f'<text x="{FRAME + 18}" y="{y}" font-size="9" fill="{COLOR_TEXT}">{name}</text>'
+        )
 
-    # summary line + legend
-    summary = (
-        f"{stats.get('total_contributions', 0)} contributions \u00b7 "
-        f"current streak {stats.get('current_streak', 0)}d \u00b7 "
-        f"longest streak {stats.get('longest_streak', 0)}d"
-    )
-    summary_y = height - 14
-    summary_svg = (
-        f'<text x="{PAD_X}" y="{summary_y}" font-size="11" fill="{COLOR_TEXT_STRONG}">{summary}</text>'
-    )
+    total = stats.get("total_contributions", 0)
+    current = stats.get("current_streak", 0)
+    longest = stats.get("longest_streak", 0)
 
-    legend_x = width - PAD_X - (5 * (CELL + 2)) - 60
-    legend_y = summary_y - 4
-    legend = [f'<text x="{legend_x}" y="{legend_y}" font-size="10" fill="{COLOR_TEXT}">Less</text>']
+    # stat pills
+    pills = []
+    pill_data = [
+        ("COMMITS", f"{total}"),
+        ("STREAK", f"{current}d"),
+        ("BEST", f"{longest}d"),
+    ]
+    px = FRAME + 28
+    for title, value in pill_data:
+        pw = max(78, len(value) * 10 + 56)
+        pills.append(
+            f"""<g transform="translate({px} {FRAME + 28})">
+  <rect width="{pw}" height="28" rx="8" fill="#101927" stroke="#2a4060"/>
+  <text x="12" y="12" font-size="8" letter-spacing="1.4" fill="{COLOR_ACCENT}">{title}</text>
+  <text x="12" y="23" font-size="12" font-weight="700" fill="{COLOR_STRONG}">{esc(value)}</text>
+</g>"""
+        )
+        px += pw + 10
+
+    legend_x = width - FRAME - 130
+    legend_y = height - FRAME - 22
+    legend = [
+        f'<text x="{legend_x}" y="{legend_y}" font-size="10" fill="{COLOR_TEXT}">Less</text>'
+    ]
     for i, c in enumerate(LEVEL_COLORS):
-        lx = legend_x + 32 + i * (CELL + 2)
-        legend.append(f'<rect x="{lx}" y="{legend_y - CELL + 2}" width="{CELL}" height="{CELL}" rx="2" fill="{c}"/>')
+        lx = legend_x + 34 + i * (CELL + 3)
+        legend.append(
+            f'<rect x="{lx}" y="{legend_y - CELL + 2}" width="{CELL}" height="{CELL}" rx="2.5" fill="{c}"/>'
+        )
     legend.append(
-        f'<text x="{legend_x + 32 + len(LEVEL_COLORS) * (CELL + 2) + 4}" y="{legend_y}" '
+        f'<text x="{legend_x + 34 + len(LEVEL_COLORS) * (CELL + 3) + 6}" y="{legend_y}" '
         f'font-size="10" fill="{COLOR_TEXT}">More</text>'
     )
 
-    style = f"text{{font-family:{FONT_FAMILY};}}"
-    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}">
-<style>{style}</style>
-<rect width="100%" height="100%" fill="transparent"/>
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}">
+<defs>
+  <linearGradient id="hmBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#3dd6ff"/>
+    <stop offset="50%" stop-color="#7b6cff"/>
+    <stop offset="100%" stop-color="#e06bff"/>
+  </linearGradient>
+  <linearGradient id="hmPanel" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0d1420"/>
+    <stop offset="100%" stop-color="#080b12"/>
+  </linearGradient>
+  <radialGradient id="hmOrb" cx="90%" cy="15%" r="45%">
+    <stop offset="0%" stop-color="#6b5cff" stop-opacity="0.22"/>
+    <stop offset="100%" stop-color="#6b5cff" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<style>text{{font-family:{FONT_FAMILY};}}</style>
+
+<rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="16" fill="none" stroke="url(#hmBorder)" stroke-width="1.5"/>
+<rect x="5" y="5" width="{width - 10}" height="{height - 10}" rx="13" fill="url(#hmPanel)"/>
+<rect x="5" y="5" width="{width - 10}" height="{height - 10}" rx="13" fill="url(#hmOrb)"/>
+
+<text x="{FRAME + 28}" y="{FRAME + 14}" font-size="9.5" letter-spacing="2.4" fill="{COLOR_ACCENT}">ACTIVITY // SIGNAL</text>
+{''.join(pills)}
+
 {''.join(labels)}
 {''.join(day_labels)}
 <g>{''.join(cells)}</g>
-{summary_svg}
 {''.join(legend)}
-</svg>"""
-    return svg
+</svg>
+"""
 
 
 def main():
     payload = load()
     svg = build_svg(payload)
-    with open(OUT, "w") as f:
+    with open(OUT, "w", encoding="utf-8") as f:
         f.write(svg)
     print(f"[render_heatmap_svg] wrote {OUT}")
 
