@@ -2,27 +2,28 @@
 
 <table>
 <tr>
-<td valign="top"><img src="./avi-ascii.svg" width="437" alt="ASCII portrait" /></td>
-<td valign="top"><img src="./info-card.svg" width="490" alt="Experience, stack, highlights" /></td>
+<td valign="middle"><img src="./avi-ascii.svg" width="420" alt="Zeraphis ASCII portrait" /></td>
+<td valign="middle"><img src="./info-card.svg" width="520" alt="Zeraphis identity card" /></td>
 </tr>
 </table>
 
-## Zeraphis Studios
+<br>
 
-**FiveM Developer · Web Developer · UI Engineer**
+### **ZERAPHIS STUDIOS**
+`FiveM Developer` · `Web Developer` · `UI Engineer`
 
-I build immersive FiveM systems, custom framework integrations and modern
-web applications. My work focuses on reliable Lua development, responsive
-React interfaces, polished NUI experiences and compatibility across popular
-FiveM frameworks.
+I build immersive FiveM systems and modern web applications —
+reliable Lua backends, responsive React interfaces, and polished NUI
+experiences engineered for performance.
 
-**Technologies:** Lua, React, TypeScript, TSX, JavaScript, HTML, CSS, C#, Pawn, Node.js, MySQL
+`Lua` · `React` · `TypeScript` · `TSX` · `JavaScript` · `HTML` · `CSS` · `C#` · `Pawn` · `Node.js` · `MySQL`
+
+<br>
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-zeraphis.co.uk-0d1117?style=for-the-badge&logo=vercel&logoColor=white)](https://zeraphis.co.uk)
 
 <br>
 
-<!-- animated contribution graph, refreshed daily by the workflow -->
 <img src="./contrib-heatmap.svg" width="860" alt="GitHub contribution graph" />
 
 </div>
